@@ -1,0 +1,74 @@
+[class*="sidebar-dark"] .brand-link {
+  border-bottom: none !important;
+  padding: 18px 20px !important;
+}
+[class*="sidebar-dark"] .user-panel {
+  border-bottom: none !important;
+}
+.user-panel img {
+  width: 4rem !important;
+}
+.user-panel .info {
+  max-width: 100px !important;
+  white-space: normal !important;
+}
+.user-panel img.img-circle {
+  border-radius: 25% !important;
+}
+.user-panel img.elevation-2 {
+  box-shadow: none !important;
+}
+.brand-text {
+  color: #676767 !important;
+}
+#welcome {
+  color: #676767 !important;
+  font-size: 13px !important;
+  margin-left: 7px !important;
+  display: inline-block !important;
+}
+.user-panel .info a {
+  color: #676767 !important;
+  font-size: 19px !important;
+  margin-left: 7px !important;
+  font-weight: bold !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+.layout-fixed .brand-link {
+  background-color: #C4F7C0 !important;
+}
+.os-content {
+  background-color: #C4F7C0 !important;
+  padding: 14px 20px !important;
+}
+.nav-icon {
+  color: #FF6666 !important;
+}
+.nav .nav-treeview .nav-link.active { 
+  color: #676767 !important;
+}
+.nav .nav-treeview .nav-link { 
+  color: #676767 !important;
+}
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, 
+.sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+  background-color: white !important;
+  color: #676767 !important;
+}
+.nav-item.has-treeview.menu-open .nav-link.active {
+  background-color: white !important;
+  color: #676767 !important;
+}
+.nav-link.active {
+  padding: 14px 12px !important;
+  margin: 14px 0 !important;
+  border-radius: 16px !important;
+}
+.nav-link i.right {
+  margin-top: 8px !important;
+}
+[class*="sidebar-dark-"] {
+  border-top-right-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+  background-color: #C4F7C0 !important;
+}
