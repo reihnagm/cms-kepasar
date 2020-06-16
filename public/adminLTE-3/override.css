@@ -5,6 +5,13 @@
 [class*="sidebar-dark"] .user-panel {
   border-bottom: none !important;
 }
+.nav-item {
+  margin: 10px 0 !important;
+}
+.nav-item.has-treeview.menu-open {
+  border-radius: 20px !important;
+  background-color: white !important;
+}
 .user-panel img {
   width: 4rem !important;
 }
@@ -50,18 +57,22 @@
 .nav .nav-treeview .nav-link { 
   color: #676767 !important;
 }
+
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, 
 .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
   background-color: white !important;
   color: #676767 !important;
 }
-.nav-item.has-treeview.menu-open .nav-link.active {
+.nav-treeview > .nav-item > .nav-link.active { 
+  background-color: #c0cef5 !important;
+  border-radius: 0% !important;
+}
+.nav-item.has-treeview.menu-open > .nav-link.active {
   background-color: white !important;
   color: #676767 !important;
 }
 .nav-link.active {
   padding: 14px 12px !important;
-  margin: 14px 0 !important;
   border-radius: 16px !important;
 }
 .nav-link i.right {

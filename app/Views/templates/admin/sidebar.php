@@ -35,13 +35,11 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="<?= base_url('admin/dashboard') ?>" class="nav-link <?= $request->uri->getSegment(2) == 'dashboard' ? 'active' : '' ?>">
-                <i class="far fa-circle nav-icon"></i>
                 <p>Dashboard</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?= base_url('admin/products/list') ?>" class="nav-link <?= $request->uri->getSegment(2) == 'products' ? 'active' : '' ?>">
-                <i class="far fa-circle nav-icon"></i>
                 <p>Lists Product</p>
               </a>
             </li>
@@ -59,7 +57,6 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a onclick="logout();" href="javascript:void(0);" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
                 <p>Logout</p>
               </a>
             </li>
