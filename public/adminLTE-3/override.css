@@ -42,10 +42,10 @@
   font-family: "Montserrat", sans-serif !important;
 }
 .layout-fixed .brand-link {
-  background-color: #C4F7C0 !important;
+  background-color: #dedede !important;
 }
 .os-content {
-  background-color: #C4F7C0 !important;
+  background-color: #dedede !important;
   padding: 14px 20px !important;
 }
 .nav-icon {
@@ -81,5 +81,5 @@
 [class*="sidebar-dark-"] {
   border-top-right-radius: 30px !important;
   border-bottom-right-radius: 30px !important;
-  background-color: #C4F7C0 !important;
+  background-color: #dedede !important;
 }

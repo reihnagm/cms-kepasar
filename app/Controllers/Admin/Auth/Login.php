@@ -23,7 +23,6 @@ class Login extends BaseController
       "password" => $password
     ];
     $result = curlHelper('https://api2.kepasar.co.id/user-service/login', 'POST', $fields);
-    // die(var_dump($result));
     $data["success"] = false;
     if($result->status === "ok") {
       $data['token'] 		     = $result->token;
@@ -39,12 +38,11 @@ class Login extends BaseController
       $data['links']		     = [
         'self' => $result->user->links->self
       ];
-
       $session->set($data);
       $data["success"] = true;
       return redirect()->to('admin/dashboard');
     } else {
-      return redirect()->to('admin/auth/login');
+      return redirect()->to(base_url('/'));
     }
   }
 }

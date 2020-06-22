@@ -60,51 +60,150 @@
   }
 
   store = () => {
-    let productCategory = $("#create_category_select").val();  
-    let productPublished = $("#create_product_published").val();
-    let productCode =  $("#create_product_code").val();
-    let productName = $("#create_product_name").val();
-    let productDescription = $("#create_product_description").val();
-    let productPrice = $("#create_product_price").val();
-    let productSpecialPrice = $("#create_product_special_price").val();
-    let productWeight = $("#create_product_weight").val();
-    let productMeasurementUnit = $("#create_product_measurement_unit").val();
-    let productStock = $("#create_product_stock").val();
-    // $.ajax({
-    //   type: "POST",
-    //   url: `https://api2.kepasar.co.id/product-service/product-master`,
-    //   data: JSON.stringify({
-    //     category_id: productCategory,
-    //     product_code: productCode,
-    //     product_name: productName,
-    //     description: productDescription,
-    //     price: productPrice,
-    //     special_price: 0,
-    //     discount_type: 0,
-    //     weight: productWeight,
-    //     measurement_unit: productMeasurementUnit,
-    //     stock: productStock,
-    //     adult_only: false,
-    //     published: productPublished,
-    //     tags: "Cabe Rawit",
-    //     meta_data: "sayur, cabe"
-    //   }),  
-    //   beforeSend: function (xhr) {
-    //     xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-    //     xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    //     xhr.setRequestHeader("Content-Type", "application/json");
-    //   }, 
-    //   success: function(data) {
-    //     $('#store').modal('hide');
-    //     Swal.fire(
-    //       'Successfully !',
-    //       'Product Created !',
-    //       'success'
-    //     )
-    //     window.location.reload();
-    //     $('#product-btn-store').text('CREATE');
-    //   }
-    // });
+    let fd = new FormData();
+    let cat_id = $("#create_category_select").val();  
+    let code = $("#create_product_code").val();
+    let name = $("#create_product_name").val();
+    let desc = $("#create_product_description").val();
+    let price =  $("#create_product_price").val();
+    let specialPrice = $("#create_product_special_price").val();
+    let priceDiscount = $("#create_product_price_discount").val();
+    let img = $('#create_input_file_product_image')[0].files[0];  
+    let weight = $("#create_product_weight").val();
+    let stock = $("#create_product_stock").val();
+    let published = $("#create_published_select").val();
+    let unit = $("#create_product_measurement_unit").val();
+    let adult = $("#create_adult_select").val();
+    let tags = $("#create_product_tags").val();
+    let metaData = $("#create_product_meta_data").val();
+    fd.append('catId', cat_id);
+    fd.append('code', code);
+    fd.append('name', name);
+    fd.append('desc', desc);
+    fd.append('price', price);
+    fd.append('specialPrice', specialPrice);
+    fd.append('priceDiscount', priceDiscount);
+    fd.append('img', img);
+    fd.append('weight', weight);
+    fd.append('stock', stock);
+    fd.append('published', published);
+    fd.append('unit', unit);
+    fd.append('adult', adult);
+    fd.append('tags', tags);
+    fd.append('metaData', metaData);
+    $('#product-btn-store').text(`PROCESS`);
+    $.ajax({
+      type: "POST",
+      url: `${baseUrl}/admin/products/store`,
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: fd,  
+      // beforeSend: function (xhr) {
+      //   xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+      //   xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      //   xhr.setRequestHeader("Content-Type", "application/json");
+      // }, 
+      success: function(data) {
+        $('#store').modal('hide');
+        Swal.fire(
+          'Successfully !',
+          'Product Created !',
+          'success'
+        )
+        window.location.reload();
+        $('#product-btn-store').text('CREATE');
+      }
+    });
+  }
+
+  edit = async (id) => {
+    $('#edit').modal('show');
+    await $.ajax({
+      type: "GET",
+      url: `https://api2.kepasar.co.id/product-service/product-master/${id}`,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xhr.setRequestHeader("Content-Type", "application/json");
+      },
+      success: function(data) {
+        $("#category_select option").filter(function() {
+          return $(this).val() === data.product.category.id;
+        }).prop('selected', true);
+        $("#published_select option").filter(function() {
+          return $(this).val() === data.product.published;
+        }).prop('selected', true);
+        $("#product_id").val(data.product.id);
+        $("#product_code").val(data.product.product_code);
+        $("#product_name").val(data.product.name);
+        $("#product_image").attr('src', `https://api2.kepasar.co.id${data.product.images}`);
+        $("#product_description").val(data.product.descriptions);
+        $("#product_price").val(data.product.price);
+        $("#product_price_discount").val(data.product.price_discount);
+        $("#product_stock").val(data.product.stock);
+        $("#product_weight").val(data.product.weight);
+        $("#product_measurement_unit").val(data.product.unit);
+      }
+    });
+  }
+
+  update = async () => {
+    let fd = new FormData();
+    let categoryId = $('#category_select').val();
+    let published = $('#published_select').val();
+    let id = $('#product_id').val();
+    let code = $('#product_code').val();
+    let name = $('#product_name').val();
+    let desc = $('#product_description').val();
+    let image = $('#edit_input_file_product_image')[0].files[0];  
+    let spcialPrice = $('#product_special_price').val();
+    let disc = $('#product_price_discount').val();
+    let price = $('#product_price').val();
+    let dimnsions = $('#product_dimension').val();
+    let stock = $('#product_stock').val();
+    let weight = $('#product_weight').val();
+    let unit = $('#product_measurement_unit').val();
+    fd.append('id', id);
+    fd.append('categoryId', categoryId);
+    fd.append('code', code);
+    fd.append('name', name);
+    fd.append('desc', desc);
+    fd.append('images', image);
+    fd.append('price', price);
+    fd.append('specialPrice', spcialPrice);
+    fd.append('dimensions', dimnsions);
+    fd.append('disc', disc);
+    fd.append('stock', stock);
+    fd.append('weight', weight);
+    fd.append('unit', unit);
+    fd.append('published', published);
+    fd.append('tags', 'Kue Getuk');
+    fd.append('metaData', 'kue, getuk');
+    $('#product-btn-update').text(`PROCESS`);
+    await $.ajax({
+      type: "POST",
+      url: `${baseUrl}/admin/products/update`,
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: fd, 
+      // beforeSend: function (xhr) {
+      //   xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+      //   xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      //   xhr.setRequestHeader("Content-Type", "application/json");
+      // }, 
+      success: function(data) {
+        $('#edit').modal('hide');
+        Swal.fire(
+          'Successfully !',
+          'Product Updated !',
+          'success'
+        )
+        window.location.reload();
+        $('#product-btn-update').text('SAVE');
+      }
+    });
   }
 
   detail = (uid) => {
@@ -138,65 +237,33 @@
     });
   }
 
- edit = async (uid) => {
-    $('#edit').modal('show');
-    $.ajax({
-      type: "GET",
-      url: `https://api2.kepasar.co.id/product-service/product-master/${uid}`,
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-        xhr.setRequestHeader("Content-Type", "application/json");
-      },
-      success: function(data) {
-        $("#category_select option").filter(function() {
-          return $(this).val() === data.product.category.id;
-        }).prop('selected', true);
-        $("#published_select option").filter(function() {
-          return $(this).val() === data.product.published;
-        }).prop('selected', true);
-        $("#product_id").val(data.product.id);
-        $("#product_code").val(data.product.product_code);
-        $("#product_name").val(data.product.name);
-        $("#product_image").attr('src', `https://api2.kepasar.co.id${data.product.images}`);
-        $("#product_description").val(data.product.descriptions);
-        $("#product_price").val(data.product.price);
-        $("#product_price_discount").val(data.product.price_discount);
-        $("#product_stock").val(data.product.stock);
-        $("#product_weight").val(data.product.weight);
-        $("#product_measurement_unit").val(data.product.unit);
-      }
-    });
-  }
 
-  $('#photo').on('change', function() {
-    var filename  = $('#photo').val();
-    var uniqueImg = new Date().getTime()
-    var parts = filename.split('.');
-    var ext = parts[parts.length - 1];
-    if (!isImage(ext)) {
-        swal('error', 'File bukan gambar!', 'error');
-    } else {
-        var photo = $('#photo')[0].files[0];
-        var form = new FormData();
-        form.append('photo', photo);
-        $.ajax({
-            url: '/user/upload/photo/profile',
-            data: form,
-            type: 'POST',
-            contentType: false, // FIX : ILLEGAL INVOCATION IMG
-            processData: false, // FIX : ILLEGAL INVOCATION IMG
-            cache: false, // FIX : ILLEGAL INVOCATION IMG
-            success: function(data) {
-                swal("Berhasil", "Foto Profil berhasil diubah!", "success")
-                $('#photo_profile').attr('src',"/uploads/images/users/"+data.photo+"?"+uniqueImg);
-            },
-            error: function(data) {
-                swal("Gagal", "Foto Profil berhasil diubah!", "error")
-            }
-        });
+  $('#edit_input_file_product_image').on('change', function() {
+    let filename = $('#edit_input_file_product_image').val();
+    let uniqueImg = new Date().getTime()
+    let parts = filename.split('.');
+    let ext = parts[parts.length - 1];
+    let reader = new FileReader();
+    let image = $('#edit_input_file_product_image')[0].files[0];  
+    reader.onload = function(e) {
+      $('#product_image').attr('src', e.target.result);
     }
-});
+    reader.readAsDataURL(image);
+  });
+
+  $('#create_input_file_product_image').on('change', function() {
+    let filename  = $('#create_input_file_product_image').val();
+
+    let uniqueImg = new Date().getTime()
+    let parts = filename.split('.');
+    let ext = parts[parts.length - 1];
+    let reader = new FileReader();
+    let image = $('#create_input_file_product_image')[0].files[0];  
+    reader.onload = function(e) {
+      $('#product_image').attr('src', e.target.result);
+    }
+    reader.readAsDataURL(image);
+  });
 
   logout = async () => {
     Swal.fire({
@@ -217,40 +284,26 @@
           }
         });
       }
-    })
+    });
   }
 
-  update = async () => {
-    let productCategory = $('#category_select').val();
-    let productPublished = $('#published_select').val();
-    let productId = $('#product_id').val();
-    let productCode = $('#product_code').val();
-    let productName = $('#product_name').val();
-    let productDescription = $('#product_description').val();
-    let productPrice = $('#product_price').val();
-    let productPriceDiscount = $('#product_price_discount').val();
-    let productStock = $('#product_stock').val();
-    let productWeight = $('#product_weight').val();
-    let productMeasurementUnit = $('#product_measurement_unit').val();
-    $('#product-btn-update').text(`PROCESS`);
+
+  // Category 
+
+  createCategory = () => {
+    $('#storeCategory').modal('show');
+  }
+
+  storeCategory = async () => {
+    let categoryName = $('#create_category_name').val();
+    let categoryDescription = $('#create_category_description').val();
+    $('#category-btn-store').text('PROCESS');
     await $.ajax({
-      type: "PUT",
-      url: `https://api2.kepasar.co.id/product-service/product-master/${productId}`,
+      type: "POST",
+      url: `https://api2.kepasar.co.id/product-service/category`,
       data: JSON.stringify({
-        category_id: productCategory,
-        product_code: productCode,
-        product_name: productName,
-        description: productDescription,
-        price: productPrice,
-        special_price: 0,
-        discount_type: 0,
-        weight: productWeight,
-        measurement_unit: productMeasurementUnit,
-        stock: productStock,
-        adult_only: false,
-        published: productPublished,
-        tags: "Cabe Rawit",
-        meta_data: "sayur, cabe"
+        category_name: categoryName,
+        description: categoryDescription,
       }),  
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", `Bearer ${token}`);
@@ -258,17 +311,113 @@
         xhr.setRequestHeader("Content-Type", "application/json");
       },
       success: function(data) {
-        $('#edit').modal('hide');
+        $('#storeCategory').modal('hide');
         Swal.fire(
           'Successfully !',
-          'Product Updated !',
+          'Category Created !',
           'success'
         )
         window.location.reload();
-        $('#product-btn-update').text('SIMPAN');
+        $('#category-btn-store').text('SAVE');
       }
     });
   }
+
+  detailCategory = async (id) => {
+    $("#detailCategory").modal('show');
+    await $.ajax({
+      type: "GET",
+      url: `https://api2.kepasar.co.id/product-service/category/${id}`,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xhr.setRequestHeader("Content-Type", "application/json");
+      },
+      success: function(data) {
+        $("#detail_category_name").text(data.data.category_name);
+        $("#detail_category_description").text(data.data.description)
+      }
+    });
+  }
+
+  deleteCategory = async (id) => {
+    Swal.fire({
+      title: 'Are you sure want to delete?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then( async (result) => {
+      if (result.value) {
+        await $.ajax({
+          type: "DELETE",
+          url: `https://api2.kepasar.co.id/product-service/category/${id}`,
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            xhr.setRequestHeader("Content-Type", "application/json");
+          },
+          success: function(data) {
+            Swal.fire(
+              'Successfully !',
+              'Category Deleted !',
+              'success'
+            )
+            window.location.reload();
+          }
+        });
+      }
+    });
+  }
+
+  editCategory = async (id) => {
+    $('#editCategory').modal('show');
+    await $.ajax({
+      type: "GET",
+      url: `https://api2.kepasar.co.id/product-service/category/${id}`,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xhr.setRequestHeader("Content-Type", "application/json");
+      },
+      success: function(data) {
+        $("#edit_category_name").val(data.data.category_name);
+        $("#edit_category_description").val(data.data.description);
+      }
+    });
+  }
+
+  updateCategory = async (id) => {
+    let productCategory = $('#edit_category_name').val();
+    let productCategoryDescription = $('#edit_category_description').val();
+    $('#category-btn-update').text(`PROCESS`);
+    await $.ajax({
+      type: "PATCH",
+      url: `https://api2.kepasar.co.id/product-service/category/${id}`,
+      data: JSON.stringify({
+        category_name: productCategory,
+        description: productCategoryDescription
+      }),  
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xhr.setRequestHeader("Content-Type", "application/json");
+      },
+      success: function(data) {
+        $('#editCategory').modal('hide');
+        Swal.fire(
+          'Successfully !',
+          'Category Updated !',
+          'success'
+        )
+        window.location.reload();
+        $('#category-btn-update').text('SAVE');
+      }
+    });
+  }
+
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url('public/adminLTE-3/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
@@ -298,3 +447,6 @@
 <script src="<?= base_url('public/adminLTE-3/dist/js/pages/dashboard.js') ?>"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('public/adminLTE-3/dist/js/demo.js') ?>"></script>
+
+</body>
+</html>

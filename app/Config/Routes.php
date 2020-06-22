@@ -26,8 +26,14 @@ $routes->group('admin', function($routes) {
   $routes->group('products', function($routes) {
     $routes->get('datatables', 'Product::datatables', ['namespace' => 'App\Controllers\Admin\Product']);
     $routes->get('list', 'Product::index', ['namespace' => 'App\Controllers\Admin\Product']);
-    $routes->post('/', 'Product::store', ['namespace' => 'App\Controllers\Admin\Product']);
-    $routes->put('/(:any)', 'Product::update', ['namespace' => 'App\Controllers\Admin\Product']);
+    $routes->post('store', 'Product::store', ['namespace' => 'App\Controllers\Admin\Product']);
+    $routes->post('update', 'Product::update', ['namespace' => 'App\Controllers\Admin\Product']);
+  });
+  $routes->group('categories', function($routes) {
+    $routes->get('list', 'Category::index', ['namespace' => 'App\Controllers\Admin\Category']);
+  });
+  $routes->group('users', function($routes) {
+    $routes->get('list', 'User::index', ['namespace' => 'App\Controllers\Admin\User']);
   });
 });
 

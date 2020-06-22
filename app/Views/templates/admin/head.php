@@ -34,3 +34,4 @@
   <!-- Sweetalert 2 -->
   <link rel="stylesheet" href="<?= base_url('public/adminLTE-3/plugins/sweetalert2/sweetalert2.min.css') ?>">
 </head>
+<body class="hold-transition sidebar-mini layout-fixed">

@@ -10,7 +10,7 @@ function curlHelper($url = '', $method = 'GET', $fields = []) {
   }
   curl_setopt($curl, CURLOPT_URL, $url);
   curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
-  if($method === 'POST') {
+  if($method === 'POST' || $method === 'PUT') {
     $template = "";
     $values = $fields;
     $keys = array_keys($fields);
@@ -31,4 +31,27 @@ function curlHelper($url = '', $method = 'GET', $fields = []) {
   $resultDecoded = json_decode($result);
   curl_close($curl); 
   return $resultDecoded;
+}
+
+
+
+function curlImageHelper($url, $data){
+  $session = Services::session();
+  $token = $session->get('token');
+  $headers = ["Content-Type : application/json", "Authorization: Bearer ".$token]; 
+  $postfields = [
+    "tags" => "test",
+    "file" => curl_file_create($data['file']['tmp_name'], $data['file']['type'], basename($data['file']['name']))
+  ];
+  $curl = curl_init();
+  $options = [
+    CURLOPT_URL => $url,
+    CURLOPT_POSTFIELDS => $postfields,
+    CURLOPT_HTTPHEADER => $headers,
+    CURLOPT_RETURNTRANSFER => true
+  ]; 
+  curl_setopt_array($curl, $options);
+  $result = curl_exec($curl);
+  $decoded = json_decode($result);
+  return $decoded;
 }
