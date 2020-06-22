@@ -107,7 +107,7 @@
               <div class="form-group">
                 <div class="form-line">
                   <input id="create_input_file_product_image" type="file" />
-                  <img id="preview_product_image" style="width: 120px; height: 120px;" class="img-responsive">
+                  <img id="create_preview_product_image" style="width: 120px; height: 120px;" class="img-responsive">
                 </div>
               </div>
               <label class="form-label">Product Description</label>
@@ -296,7 +296,7 @@
               <label class="form-label">Adult Only</label>
               <div class="form-group">
                 <div class="form-line">
-                  <select id="category_select" class="form-control form-control-sm">
+                  <select id="adult_select" class="form-control form-control-sm">
                     <option value="true">Yes</option>
                     <option value="false" selected>No</option>
                   </select>

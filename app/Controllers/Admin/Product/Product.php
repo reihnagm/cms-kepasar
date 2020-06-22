@@ -33,12 +33,12 @@ class Product extends BaseController
     $dimensions = $request->getPost('dimensions');
     $price = $request->getPost('price');
     $specialPrice =  $request->getPost('specialPrice');
-    $disctype = $request->getPost('discountType');
+    $disctype = $request->getPost('priceDiscount');
     $weight = $request->getPost('weight');
     $unit = $request->getPost('unit');
     $stock = $request->getPost('stock');
     $published = $request->getPost('published');
-    $adultOnly = $request->getPost('adult');
+    $adult = $request->getPost('adult');
     $tags = $request->getPost('tags');
     $metaData = $request->getPost('metaData');
     if(isset($_FILES['img'])) {
@@ -62,56 +62,58 @@ class Product extends BaseController
       "dimensions" => $dimensions,
       "measurement_unit" => $unit,
       "stock" => $stock,
-      "adult_only" => false,
+      "adult_only" => $adult,
       "published" => $published,
       "tags" => $tags,
       "meta_data" => $metaData
     ];
-    $result2 = curlHelper('https://api2.kepasar.co.id/product-service/product-master', 'POST', $fields2);
+    die(var_dump($fields2));
+    // $result2 = curlHelper('https://api2.kepasar.co.id/product-service/product-master', 'POST', $fields2);
   }
 
   // UPDATE 
   public function update() {
     $request = Services::request();
 
-    $categoryId = $request->getPost('categoryId');
-    $id    = $request->getPost('id');
-    $code  = $request->getPost('code');
-    $name  = $request->getPost('name');
-    $desc  = $request->getPost('desc');
-    $img   = $request->getFile('images');
+    $catId = $request->getPost('catId');
+    $id = $request->getPost('id');
+    $code = $request->getPost('code');
+    $name = $request->getPost('name');
+    $desc = $request->getPost('desc');
+    $img = $request->getFile('img');
     $dimensions = $request->getPost('dimensions');
     $price = $request->getPost('price');
     $specialPrice =  $request->getPost('specialPrice');
-    $disctype = $request->getPost('discountType');
+    $disctype = $request->getPost('priceDiscount');
     $weight = $request->getPost('weight');
     $unit = $request->getPost('unit');
     $stock = $request->getPost('stock');
     $published = $request->getPost('published');
+    $adult = $request->getPost('adult');
     $tags = $request->getPost('tags');
     $metaData = $request->getPost('metaData');
     if(isset($_FILES['images'])) {
       $fields1 = [
         "tags" => $tags,
-        "file" => $_FILES['images']
+        "file" => $_FILES['img']
       ];
       $result1 = curlImageHelper('https://api2.kepasar.co.id/media-service/upload', $fields1);
     }
   
     $fields2 = [
-      "category_id" => $categoryId,
+      "category_id" => $catId,
       "product_code" => $code,
       "product_name" => $name,
       "description" => $desc,
-      "images" => isset($_FILES['images']) ? $result1->data->download->actual : '',
+      "images" => isset($_FILES['img']) ? $result1->data->download->actual : '',
       "price" => $price,
       "special_price" => $specialPrice,
       "discount_type" => $disctype,
       "weight" => $weight,
-      "dimensions" => "10 x 20",
+      "dimensions" => $dimensions,
       "measurement_unit" => $unit,
       "stock" => $stock,
-      "adult_only" => false,
+      "adult_only" => $adult,
       "published" => $published,
       "tags" => $tags,
       "meta_data" => $metaData

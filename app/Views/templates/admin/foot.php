@@ -69,6 +69,7 @@
     let specialPrice = $("#create_product_special_price").val();
     let priceDiscount = $("#create_product_price_discount").val();
     let img = $('#create_input_file_product_image')[0].files[0];  
+    let dimensions = $('#create_product_dimensions').val();
     let weight = $("#create_product_weight").val();
     let stock = $("#create_product_stock").val();
     let published = $("#create_published_select").val();
@@ -83,6 +84,7 @@
     fd.append('price', price);
     fd.append('specialPrice', specialPrice);
     fd.append('priceDiscount', priceDiscount);
+    fd.append('dimensions', dimensions);
     fd.append('img', img);
     fd.append('weight', weight);
     fd.append('stock', stock);
@@ -105,13 +107,13 @@
       //   xhr.setRequestHeader("Content-Type", "application/json");
       // }, 
       success: function(data) {
-        $('#store').modal('hide');
-        Swal.fire(
-          'Successfully !',
-          'Product Created !',
-          'success'
-        )
-        window.location.reload();
+        // $('#store').modal('hide');
+        // Swal.fire(
+        //   'Successfully !',
+        //   'Product Created !',
+        //   'success'
+        // )
+        // window.location.reload();
         $('#product-btn-store').text('CREATE');
       }
     });
@@ -150,36 +152,39 @@
 
   update = async () => {
     let fd = new FormData();
-    let categoryId = $('#category_select').val();
+    let catId = $('#category_select').val();
     let published = $('#published_select').val();
+    let adult = $('#adult_select').val();
     let id = $('#product_id').val();
     let code = $('#product_code').val();
     let name = $('#product_name').val();
     let desc = $('#product_description').val();
     let image = $('#edit_input_file_product_image')[0].files[0];  
-    let spcialPrice = $('#product_special_price').val();
-    let disc = $('#product_price_discount').val();
+    let specialPrice = $('#product_special_price').val();
+    let priceDiscount = $("#product_price_discount").val();
     let price = $('#product_price').val();
-    let dimnsions = $('#product_dimension').val();
+    let dimensions = $('#product_dimension').val();
     let stock = $('#product_stock').val();
     let weight = $('#product_weight').val();
     let unit = $('#product_measurement_unit').val();
     fd.append('id', id);
-    fd.append('categoryId', categoryId);
+    fd.append('catId', catId);
     fd.append('code', code);
     fd.append('name', name);
     fd.append('desc', desc);
     fd.append('images', image);
     fd.append('price', price);
-    fd.append('specialPrice', spcialPrice);
-    fd.append('dimensions', dimnsions);
+    fd.append('specialPrice', specialPrice);
+    fd.append('priceDiscount', priceDiscount);
+    fd.append('dimensions', dimensions);
     fd.append('disc', disc);
     fd.append('stock', stock);
     fd.append('weight', weight);
     fd.append('unit', unit);
     fd.append('published', published);
-    fd.append('tags', 'Kue Getuk');
-    fd.append('metaData', 'kue, getuk');
+    fd.append('adult', adult);
+    fd.append('tags', tags);
+    fd.append('metaData', metaData);
     $('#product-btn-update').text(`PROCESS`);
     await $.ajax({
       type: "POST",
@@ -260,7 +265,7 @@
     let reader = new FileReader();
     let image = $('#create_input_file_product_image')[0].files[0];  
     reader.onload = function(e) {
-      $('#product_image').attr('src', e.target.result);
+      $('#create_preview_product_image').attr('src', e.target.result);
     }
     reader.readAsDataURL(image);
   });
