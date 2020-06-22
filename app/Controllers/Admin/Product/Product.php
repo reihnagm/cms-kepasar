@@ -67,15 +67,13 @@ class Product extends BaseController
       "tags" => $tags,
       "meta_data" => $metaData
     ];
-    die(var_dump($fields2));
-    // $result2 = curlHelper('https://api2.kepasar.co.id/product-service/product-master', 'POST', $fields2);
+    $result2 = curlHelper('https://api2.kepasar.co.id/product-service/product-master', 'POST', $fields2);
   }
 
   // UPDATE 
   public function update() {
     $request = Services::request();
     $id = $request->getPost('id');
-    die(var_dump($id));
     $catId = $request->getPost('catId');
     $code = $request->getPost('code');
     $name = $request->getPost('name');

@@ -107,18 +107,17 @@
       //   xhr.setRequestHeader("Content-Type", "application/json");
       // }, 
       success: function(data) {
-        // $('#store').modal('hide');
-        // Swal.fire(
-        //   'Successfully !',
-        //   'Product Created !',
-        //   'success'
-        // )
-        // window.location.reload();
+        $('#store').modal('hide');
+        Swal.fire(
+          'Successfully !',
+          'Product Created !',
+          'success'
+        )
+        window.location.reload();
         $('#product-btn-store').text('CREATE');
       }
     });
   }
-
   edit = async (id) => {
     $('#edit').modal('show');
     let fd = new FormData();
@@ -208,12 +207,12 @@
       // }, 
       success: function(data) {
         $('#edit').modal('hide');
-        // Swal.fire(
-        //   'Successfully !',
-        //   'Product Updated !',
-        //   'success'
-        // )
-        // window.location.reload();
+        Swal.fire(
+          'Successfully !',
+          'Product Updated !',
+          'success'
+        )
+        window.location.reload();
         $('#product-btn-update').text('SAVE');
       }
     });
