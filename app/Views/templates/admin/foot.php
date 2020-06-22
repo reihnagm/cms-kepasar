@@ -402,13 +402,15 @@
         xhr.setRequestHeader("Content-Type", "application/json");
       },
       success: function(data) {
+        $("#catId").val(data.data.guid);
         $("#edit_category_name").val(data.data.category_name);
         $("#edit_category_description").val(data.data.description);
       }
     });
   }
 
-  updateCategory = async (id) => {
+  updateCategory = async () => {
+    let id = $('#catId').val();
     let productCategory = $('#edit_category_name').val();
     let productCategoryDescription = $('#edit_category_description').val();
     $('#category-btn-update').text(`PROCESS`);

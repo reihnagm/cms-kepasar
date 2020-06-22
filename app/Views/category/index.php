@@ -11,8 +11,10 @@
 
     <div class="content-header"></div>
 
-     <!-- Modal Detail Category -->
-     <div class="modal fade" id="detailCategory" tabindex="-1" role="dialog">
+    <input type="hidden" id="catId" name="catId">
+
+    <!-- Modal Detail Category -->
+    <div class="modal fade" id="detailCategory" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
