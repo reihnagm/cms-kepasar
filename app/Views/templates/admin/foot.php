@@ -121,31 +121,38 @@
 
   edit = async (id) => {
     $('#edit').modal('show');
+    let fd = new FormData();
+    fd.append('id', id);
     await $.ajax({
-      type: "GET",
-      url: `https://api2.kepasar.co.id/product-service/product-master/${id}`,
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-        xhr.setRequestHeader("Content-Type", "application/json");
-      },
+      type: "POST",
+      url: `${baseUrl}/admin/products/edit`,
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: fd,
+      // beforeSend: function (xhr) {
+      //   xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+      //   xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      //   xhr.setRequestHeader("Content-Type", "application/json");
+      // },
       success: function(data) {
+        let result = JSON.parse(data);
         $("#category_select option").filter(function() {
-          return $(this).val() === data.product.category.id;
+          return $(this).val() === result.product.category.id;
         }).prop('selected', true);
         $("#published_select option").filter(function() {
-          return $(this).val() === data.product.published;
+          return $(this).val() === result.product.published;
         }).prop('selected', true);
-        $("#product_id").val(data.product.id);
-        $("#product_code").val(data.product.product_code);
-        $("#product_name").val(data.product.name);
-        $("#product_image").attr('src', `https://api2.kepasar.co.id${data.product.images}`);
-        $("#product_description").val(data.product.descriptions);
-        $("#product_price").val(data.product.price);
-        $("#product_price_discount").val(data.product.price_discount);
-        $("#product_stock").val(data.product.stock);
-        $("#product_weight").val(data.product.weight);
-        $("#product_measurement_unit").val(data.product.unit);
+        $("#product_id").val(result.product.id);
+        $("#product_code").val(result.product.product_code);
+        $("#product_name").val(result.product.name);
+        $("#product_image").attr('src', `https://api2.kepasar.co.id${result.product.images}`);
+        $("#product_description").val(result.product.descriptions);
+        $("#product_price").val(result.product.price);
+        $("#product_price_discount").val(result.product.price_discount);
+        $("#product_stock").val(result.product.stock);
+        $("#product_weight").val(result.product.weight);
+        $("#product_measurement_unit").val(result.product.unit);
       }
     });
   }
@@ -166,18 +173,19 @@
     let dimensions = $('#product_dimension').val();
     let stock = $('#product_stock').val();
     let weight = $('#product_weight').val();
+    let tags = $('#product_tags').val();
+    let metaData =  $('#product_meta_data').val();
     let unit = $('#product_measurement_unit').val();
     fd.append('id', id);
     fd.append('catId', catId);
     fd.append('code', code);
     fd.append('name', name);
     fd.append('desc', desc);
-    fd.append('images', image);
+    fd.append('img', image);
     fd.append('price', price);
     fd.append('specialPrice', specialPrice);
     fd.append('priceDiscount', priceDiscount);
     fd.append('dimensions', dimensions);
-    fd.append('disc', disc);
     fd.append('stock', stock);
     fd.append('weight', weight);
     fd.append('unit', unit);
@@ -200,38 +208,45 @@
       // }, 
       success: function(data) {
         $('#edit').modal('hide');
-        Swal.fire(
-          'Successfully !',
-          'Product Updated !',
-          'success'
-        )
-        window.location.reload();
+        // Swal.fire(
+        //   'Successfully !',
+        //   'Product Updated !',
+        //   'success'
+        // )
+        // window.location.reload();
         $('#product-btn-update').text('SAVE');
       }
     });
   }
 
-  detail = (uid) => {
+  detail = (id) => {
     $('#detail').modal('show');
+    let fd = new FormData();
+    fd.append('id', id);
     $.ajax({
-      type: "GET",
-      url: `https://api2.kepasar.co.id/product-service/product-master/${uid}`,
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-        xhr.setRequestHeader("Content-Type", "application/json");
-      },
+      type: "POST",
+      url: `${baseUrl}/admin/products/detail`,
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: fd,
+      // beforeSend: function (xhr) {
+      //   xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+      //   xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      //   xhr.setRequestHeader("Content-Type", "application/json");
+      // },
       success: function(data) {
-        $("#detail_product_code").text(data.product.product_code);
-        $("#detail_product_name").text(data.product.name);
-        $("#detail_product_image").attr('src', `https://api2.kepasar.co.id${data.product.images}`);
-        $("#detail_product_description").text(data.product.descriptions);
-        $("#detail_product_price").text(data.product.price);
-        $("#detail_product_stock").text(data.product.stock);
-        $("#detail_product_weight").text(data.product.weight);
-        $("#detail_product_unit").text(data.product.unit);
-        $("#detail_product_category").text(data.product.category.name);
-        if(data.product.published === true) {
+        let result = JSON.parse(data)
+        $("#detail_product_code").text(result.product.product_code);
+        $("#detail_product_name").text(result.product.name);
+        $("#detail_product_image").attr('src', `https://api2.kepasar.co.id${result.product.images}`);
+        $("#detail_product_description").text(result.product.descriptions);
+        $("#detail_product_price").text(result.product.price);
+        $("#detail_product_stock").text(result.product.stock);
+        $("#detail_product_weight").text(result.product.weight);
+        $("#detail_product_unit").text(result.product.unit);
+        $("#detail_product_category").text(result.product.category.name);
+        if(result.product.published === true) {
           let textPublished = "Yes";
           $("#detail_product_published").text(textPublished);
         } else {

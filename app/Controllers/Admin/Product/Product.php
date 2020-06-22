@@ -74,9 +74,9 @@ class Product extends BaseController
   // UPDATE 
   public function update() {
     $request = Services::request();
-
-    $catId = $request->getPost('catId');
     $id = $request->getPost('id');
+    die(var_dump($id));
+    $catId = $request->getPost('catId');
     $code = $request->getPost('code');
     $name = $request->getPost('name');
     $desc = $request->getPost('desc');
@@ -92,7 +92,7 @@ class Product extends BaseController
     $adult = $request->getPost('adult');
     $tags = $request->getPost('tags');
     $metaData = $request->getPost('metaData');
-    if(isset($_FILES['images'])) {
+    if(isset($_FILES['img'])) {
       $fields1 = [
         "tags" => $tags,
         "file" => $_FILES['img']
@@ -120,7 +120,18 @@ class Product extends BaseController
     ];
     $result2 = curlHelper('https://api2.kepasar.co.id/product-service/product-master/'.$id, 'PUT', $fields2);
   }
-
+  public function edit() {
+    $request = Services::request();
+    $id = $request->getPost('id');
+    $result = curlHelper('https://api2.kepasar.co.id/product-service/product-master/'.$id, 'GET');
+    echo json_encode($result);
+  }
+  public function detail() {
+    $request = Services::request();
+    $id = $request->getPost('id');
+    $result = curlHelper('https://api2.kepasar.co.id/product-service/product-master/'.$id, 'GET');
+    echo json_encode($result);
+  }
   // public function datatables() 
   // {
   //   $columns = [

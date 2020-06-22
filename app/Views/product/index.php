@@ -311,6 +311,18 @@
                   </select>
                 </div>
               </div>
+              <label class="form-label">Product Tags</label>
+              <div class="form-group">
+                <div class="form-line">
+                  <input type="text" id="product_tags" name="product_tags" class="form-control">
+                </div>
+              </div>
+               <label class="form-label">Product Dimensions</label>
+              <div class="form-group">
+                <div class="form-line">
+                  <input type="text" id="product_dimensions" name="product_dimensions" class="form-control">
+                </div>
+              </div>
             </div>
           <div class="modal-footer">
             <button id="product-btn-update" onclick="update()" type="button" class="btn btn-primary btn-sm">SIMPAN</button>
